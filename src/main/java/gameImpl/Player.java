@@ -1,4 +1,4 @@
-import com.sun.tools.javac.parser.Tokens;
+package gameImpl;
 
 import java.util.*;
 
@@ -31,8 +31,6 @@ public class Player implements Runnable{
             if ( length >= arithmeticSize ) {
                 isDone=true;
             }
-
-            //score = progressionLenght();
         }
         if (isDone) {
             System.out.printf("I (%s) found a progression for the required length\n", name);
@@ -40,14 +38,6 @@ public class Player implements Runnable{
         } else{
             System.out.printf("I (%s) did not find a progression for the required length, my max length is %d\n", name, length);
         }
-    }
-
-    public boolean find(int value)
-    {
-        for(Token t:tokens){
-            if(t.getNumber()==value) return true;
-        }
-        return false;
     }
 
     public int maxLengthForProgression(){
@@ -116,13 +106,9 @@ public class Player implements Runnable{
         return name;
     }
 
-    public List<Token> getTokens() {
-        return tokens;
-    }
-
     @Override
     public String toString() {
-        return "Player{" +
+        return "gameImpl.Player{" +
                 "name='" + name + '\'' +
                 ", tokens=" + tokens +
                 ", numberOfJokers=" + numberOfJokers +

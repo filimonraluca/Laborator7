@@ -1,16 +1,11 @@
-import javax.sound.midi.Soundbank;
-import java.util.Dictionary;
-import java.util.HashMap;
+package gameImpl;
+
 import java.util.List;
-import java.util.Set;
 
 public class Board {
     List<Token> tokens;
     Player winner;
     Boolean isWinner=false;
-
-    public Board() {
-    }
 
     public Board(List<Token> tokens) {
         this.tokens = tokens;
@@ -21,9 +16,9 @@ public class Board {
             if (!isWinner) {
                 winner = player;
                 isWinner = true;
-                System.out.printf("Player %s claimed it won\n", player.getName());
+                System.out.printf("gameImpl.Player %s claimed it won\n", player.getName());
             } else {
-                System.out.printf("Player %s claimed it won after player %s\n", player.getName(), winner.getName());
+                System.out.printf("gameImpl.Player %s claimed it won after player %s\n", player.getName(), winner.getName());
             }
         }
     }
@@ -34,7 +29,6 @@ public class Board {
         synchronized (tokens) {
             if ( !isWinner  && !this.isEmpty()) {
                 nextToken = tokens.remove(tokens.size() - 1);
-                //System.out.printf("Player %s took token %d\n", player.name, nextToken.number);
             }
         }
         return nextToken;

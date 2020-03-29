@@ -1,6 +1,7 @@
+package gameImpl;
+
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 public class Game {
@@ -13,7 +14,7 @@ public class Game {
         board   = new Board(tokens);
         players = new ArrayList<>();
         for ( int i=0; i<playerNumber; ++i){
-            players.add( new Player( String.format( "Player %d", i+1 ), board, k ) );
+            players.add( new Player( String.format( "gameImpl.Player %d", i+1 ), board, k ) );
         }
     }
 
