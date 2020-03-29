@@ -8,12 +8,12 @@ public class Game {
     List<Player> players;
     List<Token> tokens;
 
-    public Game( int playerNumber, int tokenNumber, int maxTokenValue ) {
+    public Game( int playerNumber, int tokenNumber, int maxTokenValue, int k ) {
         initTokens(tokenNumber,maxTokenValue);
         board   = new Board(tokens);
         players = new ArrayList<>();
         for ( int i=0; i<playerNumber; ++i){
-            players.add( new Player( String.format( "Player %d", i+1 ), board ) );
+            players.add( new Player( String.format( "Player %d", i+1 ), board, k ) );
         }
     }
 
