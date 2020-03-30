@@ -1,6 +1,11 @@
 package gameImpl;
 
-public class Token implements Comparable{
+/**
+ * clasa Token reprezinta cartile ce se vor trage de pe masa
+ * Acestea au fie un numar, fie sunt goale caz in care le consideram jokeri si inlocuim numarul cu -1
+ * De asemenea, implementeaza interfata Comporable pentru a impune o ordine a elementelor
+ */
+public class Token implements Comparable {
     int number;
     boolean joker;
 
@@ -8,7 +13,7 @@ public class Token implements Comparable{
         this.number = number;
     }
 
-    public Token(boolean isJoker){
+    public Token(boolean isJoker) {
         joker = isJoker;
         number = -1;
     }
@@ -28,6 +33,11 @@ public class Token implements Comparable{
                 '}';
     }
 
+    /**
+     * Suprascriem functie compareTo pentru a impune ordonarea elementelor in functie de numarul cartii.
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Object o) {
         Token token = (Token) o;
