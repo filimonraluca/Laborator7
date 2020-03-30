@@ -50,7 +50,8 @@ public class Game {
     /**
      * Metoda start() creeaza thredurile pentru fiecare jucator in parte si porneste executia fiecaruia prin metoda start() care
      * prin JVM va apela metoda run() a fiecarui thread
-     * De asemenea, trecem prin toate threadurile create si apelam metoda join() care le v apermite threadurilor sa se astepte unu pe altul
+     * De asemenea, trecem prin toate threadurile create si apelam metoda join() pentru ca thredul jocului sa nu se termine pana
+     * nu se termina thredurile jucatorilor.
      */
     public void start() {
         List<Thread> threads = new ArrayList<>();
