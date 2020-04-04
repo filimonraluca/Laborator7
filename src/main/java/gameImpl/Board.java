@@ -12,20 +12,25 @@ public class Board {
         this.tokens = tokens;
     }
 
+    public List<Token> getTokens() {
+        return tokens;
+    }
+
     /**
      * Am folosit din nou un synchronized statement pentru a bloca o zona de memorie care ar fi putut produce erori
      * Practic, sincronizam accesul la extragerea cartilor astfel incat sa nu se intample ca doi jucatori sa extraga aceeasi carte
-     * @param player reprezinta obiectul de tip Player care extrage cartea
-     * @return returneaza token-ul extras cu succes
+     * @param token reprezinta token ce va fi extras de pe tabla
+     * @return returneaza true daca acesta a putut fi extras si false in caz contrar
      */
-    public Token extract(Player player) {
+    public boolean extract(Token token) {
         Token nextToken = null;
         synchronized (tokens) {
             if (!this.isEmpty()) {
-                nextToken = tokens.remove(tokens.size() - 1);
+                //System.err.println(token);
+                return tokens.remove(token);
             }
         }
-        return nextToken;
+        return false;
     }
 
     public boolean isEmpty() {

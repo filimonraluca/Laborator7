@@ -1,5 +1,7 @@
 package gameImpl;
 
+import gameImpl.gameStrategy.StrategyType;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +24,7 @@ public class Game implements Runnable {
         playersThread = new ArrayList<>();
         scoreManager = new ScoreManager(k);
         for (int i = 0; i < playerNumber; ++i) {
-            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager));
+            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager, StrategyType.LAST_TOKEN));
         }
     }
 
@@ -78,7 +80,7 @@ public class Game implements Runnable {
         int nextPlayer = 0;
         while ( !scoreManager.hasWinner() && !board.isEmpty() ) {
             Object communicator = players.get(nextPlayer).getTurnCommunicator();
-
+            System.out.printf("Player %s\n", players.get(nextPlayer));
             synchronized (communicator) {
                 communicator.notify();
             }
@@ -100,17 +102,7 @@ public class Game implements Runnable {
     }
 
     private void decideWinner() {
-        Player winner = scoreManager.getWinner();
-        if (winner==null){
-            int maxProgressionLen = -1;
-            for (Player player : players) {
-                int playersProgressionLen = scoreManager.maxLengthForProgression(player);
-                if ( playersProgressionLen > maxProgressionLen ) {
-                    maxProgressionLen = playersProgressionLen;
-                    winner = player;
-                }
-            }
-        }
+        scoreManager.decideWinnerOnEmptyBoard( players );
 
         if ( scoreManager.getWinner() != null ) {
             System.out.printf("The winner is %s\n", scoreManager.getWinner().getName());

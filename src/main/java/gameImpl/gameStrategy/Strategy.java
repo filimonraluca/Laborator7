@@ -1,5 +1,7 @@
 package gameImpl.gameStrategy;
 
+import gameImpl.Token;
+
 public interface Strategy {
-    void extractToken();
+    Token findToken();
 }

@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="73abdadb-2a31-4e56-ba55-547935858eca" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/gameImpl/TimeKeeper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/gameImpl/gameStrategy/Strategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gameImpl/gameStrategy/LastTokenStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gameImpl/gameStrategy/StrategyCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/gameImpl/gameStrategy/StrategyType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
@@ -13,13 +14,18 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/gameImpl/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/gameImpl/Board.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/gameImpl/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/gameImpl/Game.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/gameImpl/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/gameImpl/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/gameImpl/ScoreManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/gameImpl/ScoreManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/gameImpl/TimeKeeper.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/gameImpl/TimeKeeper.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gameImpl/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameImpl/Board.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gameImpl/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameImpl/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gameImpl/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameImpl/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gameImpl/ScoreManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameImpl/ScoreManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gameImpl/TimeKeeper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameImpl/TimeKeeper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gameImpl/gameStrategy/Strategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gameImpl/gameStrategy/Strategy.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +54,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -69,6 +76,11 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="extract.method.default.visibility" value="private" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="gameImpl.gameStrategy" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -101,22 +113,33 @@
       <workItem from="1585510253455" duration="2543000" />
       <workItem from="1585560120137" duration="7554000" />
       <workItem from="1585569888664" duration="5396000" />
-      <workItem from="1585991001840" duration="11120000" />
+      <workItem from="1585991001840" duration="14178000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
     <state x="401" y="167" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585994996689">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="401" y="167" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1366.728@0.0.1366.728" timestamp="1585994996689" />
-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1586002907925">
+    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser" timestamp="1586005360169">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586002907925" />
+    <state x="488" y="80" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1586005360169" />
     <state x="575" y="286" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585569907715">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -130,26 +153,26 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="108" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1366.728@0.0.1366.728" timestamp="1585994394883" />
-    <state width="1323" height="230" key="GridCell.Tab.0.bottom" timestamp="1586003973249">
+    <state width="1323" height="210" key="GridCell.Tab.0.bottom" timestamp="1586007031565">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="308" key="GridCell.Tab.0.bottom/-1920.0.1920.1040/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1585512972086" />
-    <state width="1323" height="230" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586003973249" />
-    <state width="1323" height="230" key="GridCell.Tab.0.center" timestamp="1586003973249">
+    <state width="1323" height="210" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1586007031565" />
+    <state width="1323" height="210" key="GridCell.Tab.0.center" timestamp="1586007031565">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="308" key="GridCell.Tab.0.center/-1920.0.1920.1040/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1585512972085" />
-    <state width="1323" height="230" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586003973249" />
-    <state width="1323" height="230" key="GridCell.Tab.0.left" timestamp="1586003973249">
+    <state width="1323" height="210" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1586007031565" />
+    <state width="1323" height="210" key="GridCell.Tab.0.left" timestamp="1586007031565">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="308" key="GridCell.Tab.0.left/-1920.0.1920.1040/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1585512972085" />
-    <state width="1323" height="230" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586003973249" />
-    <state width="1323" height="230" key="GridCell.Tab.0.right" timestamp="1586003973249">
+    <state width="1323" height="210" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1586007031565" />
+    <state width="1323" height="210" key="GridCell.Tab.0.right" timestamp="1586007031565">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state width="1877" height="308" key="GridCell.Tab.0.right/-1920.0.1920.1040/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1585512972086" />
-    <state width="1323" height="230" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586003973249" />
+    <state width="1323" height="210" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1586007031565" />
     <state x="379" y="188" key="com.intellij.ide.util.TipDialog" timestamp="1585991599697">
       <screen x="0" y="0" width="1366" height="728" />
     </state>

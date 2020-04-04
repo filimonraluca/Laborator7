@@ -6,9 +6,9 @@ import gameImpl.TimeKeeper;
  */
 public class Main {
     public static void main(String[] args) {
-        Game game = new Game(2, 1000, 3000, 10);
+        Game game = new Game(2, 1000, 30000, 300);
         Thread gameThread = new Thread(game);
-        Thread timekeeper = new Thread( new TimeKeeper( game, gameThread, 1000000 ));
+        Thread timekeeper = new Thread( new TimeKeeper( game, gameThread, 1000 ));
         gameThread.start();
         timekeeper.start();
         try {

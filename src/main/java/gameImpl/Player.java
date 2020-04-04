@@ -1,5 +1,9 @@
 package gameImpl;
 
+import gameImpl.gameStrategy.Strategy;
+import gameImpl.gameStrategy.StrategyCreator;
+import gameImpl.gameStrategy.StrategyType;
+
 import java.util.*;
 
 /**
@@ -9,6 +13,7 @@ import java.util.*;
  */
 public class Player implements Runnable {
     final Object turnCommunicator;
+    private final Strategy strategy;
     String name;
     Board board;
     List<Token> tokens;
@@ -17,12 +22,13 @@ public class Player implements Runnable {
     ScoreManager scoreManager;
 
 
-    public Player(String name, Board board, ScoreManager scoreManager) {
+    public Player(String name, Board board, ScoreManager scoreManager, StrategyType strategyType) {
         this.name = name;
         this.board = board;
         this.tokens = new ArrayList<>();
         this.scoreManager = scoreManager;
         this.turnCommunicator = new Object();
+        this.strategy = StrategyCreator.create( strategyType, board );
     }
 
     public List<Token> getTokens() {
@@ -52,13 +58,13 @@ public class Player implements Runnable {
     }
 
     public boolean makeTurn(){
-        tokens.add(board.extract(this));
-        Token lastToken = tokens.get(tokens.size() - 1);
-
-        if (lastToken.isJoker()) {
-            numberOfJokers++;
+        Token token = strategy.findToken();
+        if ( board.extract(token) ) {
+            tokens.add(token);
+            if (token.isJoker()) {
+                numberOfJokers++;
+            }
         }
-
         return scoreManager.maxLengthForProgression(this) >= scoreManager.getArithmeticSize();
     }
 

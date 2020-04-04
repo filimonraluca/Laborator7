@@ -1,6 +1,7 @@
 package gameImpl;
 
 import java.util.Collections;
+import java.util.List;
 
 public class ScoreManager {
     int arithmeticSize;
@@ -131,6 +132,19 @@ public class ScoreManager {
     public boolean hasWinner() {
         synchronized (winnerLock) {
             return winner != null;
+        }
+    }
+
+    public void decideWinnerOnEmptyBoard(List<Player> players) {
+        if (winner == null) {
+            int maxProgressionLen = -1;
+            for (Player player : players) {
+                int playersProgressionLen = maxLengthForProgression(player);
+                if (playersProgressionLen > maxProgressionLen) {
+                    maxProgressionLen = playersProgressionLen;
+                    winner = player;
+                }
+            }
         }
     }
 }
