@@ -1,7 +1,7 @@
 package gameImpl;
 
 public class TimeKeeper implements Runnable{
-    static final int interval = 10;
+    static final int interval = 100000;
     private final Game game;
     private final Thread gameThread;
     private final float gameDuration;

@@ -9,6 +9,8 @@ public class StrategyCreator {
                 return new LastTokenStrategy(board);
             case RANDOM_TOKEN:
                 return new RandomStrategy(board);
+            case MANUAL:
+                return new ManualStrategy(board);
             default:
                 return null;
         }

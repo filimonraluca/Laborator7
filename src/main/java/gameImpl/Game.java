@@ -24,7 +24,7 @@ public class Game implements Runnable {
         playersThread = new ArrayList<>();
         scoreManager = new ScoreManager(k);
         for (int i = 0; i < playerNumber; ++i) {
-            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager, StrategyType.LAST_TOKEN));
+            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager, StrategyType.MANUAL));
         }
     }
 

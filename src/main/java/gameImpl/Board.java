@@ -33,6 +33,13 @@ public class Board {
         return false;
     }
 
+    public void printTokens() {
+        for (Token t : tokens) {
+            System.out.printf("%s ", t);
+        }
+        System.out.println();
+    }
+
     public boolean isEmpty() {
         return tokens.isEmpty();
     }
