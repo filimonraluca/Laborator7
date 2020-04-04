@@ -18,10 +18,10 @@ public class ScoreManager {
      */
     public void claimWin(Player player) {
         synchronized (winnerLock) {
-            if (winner == null) {
+            if (winner == null && maxLengthForProgression(player) >= arithmeticSize) {
                 winner = player;
                 System.out.printf("gameImpl.Player %s claimed it won\n", player.getName());
-            } else {
+            } else if (winner != null) {
                 System.out.printf("gameImpl.Player %s claimed it won after player %s\n", player.getName(), winner.getName());
             }
         }
@@ -29,6 +29,10 @@ public class ScoreManager {
 
     public int getArithmeticSize() {
         return arithmeticSize;
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
     /**
@@ -69,7 +73,7 @@ public class ScoreManager {
                     maxTokenStart = t;
                 }
             }
-        System.out.printf("I (%s) found a progression of ratio %d and size %d starting from %d\n", player.getName(), ratio, maxLength, maxTokenStart.getNumber());
+//        System.out.printf("I (%s) found a progression of ratio %d and size %d starting from %d\n", player.getName(), ratio, maxLength, maxTokenStart.getNumber());
         return maxLength;
     }
 
@@ -119,5 +123,11 @@ public class ScoreManager {
             }
         } while (previous != null);
         return size;
+    }
+
+    public boolean hasWinner() {
+        synchronized (winnerLock) {
+            return winner != null;
+        }
     }
 }

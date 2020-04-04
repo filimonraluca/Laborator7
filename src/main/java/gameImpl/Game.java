@@ -67,6 +67,44 @@ public class Game {
      */
     public void start() {
         startPlayerThreads();
+        int nextPlayer = 0;
+        while ( !scoreManager.hasWinner() && !board.isEmpty() ) {
+            Object communicator = players.get(nextPlayer).getTurnCommunicator();
+            System.out.println(players.get(nextPlayer).getName());
+            synchronized (communicator) {
+                communicator.notify();
+            }
+
+            try {
+                synchronized (communicator) {
+                    communicator.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            nextPlayer = (nextPlayer + 1) % players.size();
+        }
+        awakeAll();
+        joinAll();
+        decideWinner();
+    }
+
+    private void decideWinner() {
+        Player winner = scoreManager.getWinner();
+        if (winner==null){
+            int maxProgressionLen = -1;
+            for (Player player : players) {
+                int playersProgressionLen = scoreManager.maxLengthForProgression(player);
+                if ( playersProgressionLen > maxProgressionLen ) {
+                    maxProgressionLen = playersProgressionLen;
+                    winner = player;
+                }
+            }
+        }
+        System.out.printf("The winner is %s", scoreManager.getWinner().getName());
+    }
+
+    private void joinAll() {
         for (Thread t : playersThread) {
             try {
                 t.join();
@@ -74,7 +112,14 @@ public class Game {
                 e.printStackTrace();
             }
         }
-        for (Player p : players)
-            System.out.println(p);
+    }
+
+    private void awakeAll() {
+        for (Player player:players) {
+            Object communicator = player.getTurnCommunicator();
+            synchronized (communicator) {
+                communicator.notify();
+            }
+        }
     }
 }

@@ -8,6 +8,7 @@ import java.util.*;
  * si numberOfJokers reprezentand numarul de jokeri pe care ii detine
  */
 public class Player implements Runnable {
+    final Object turnCommunicator;
     String name;
     Board board;
     List<Token> tokens;
@@ -21,6 +22,7 @@ public class Player implements Runnable {
         this.board = board;
         this.tokens = new ArrayList<>();
         this.scoreManager = scoreManager;
+        this.turnCommunicator = new Object();
     }
 
     public List<Token> getTokens() {
@@ -45,6 +47,21 @@ public class Player implements Runnable {
         return false;
     }
 
+    public Object getTurnCommunicator() {
+        return turnCommunicator;
+    }
+
+    public boolean makeTurn(){
+        tokens.add(board.extract(this));
+        Token lastToken = tokens.get(tokens.size() - 1);
+
+        if (lastToken.isJoker()) {
+            numberOfJokers++;
+        }
+
+        return scoreManager.maxLengthForProgression(this) >= scoreManager.getArithmeticSize();
+    }
+
     /**
      * Metoda run() este cea apelata in momentul in care se incepe executia unui thread pentru un player
      * Aceasta se incheie cand fie nu mai sunt carti pe tabla, caz in care castigatorul se decide in functie de progresia de cea mai lunga lungime,
@@ -56,24 +73,29 @@ public class Player implements Runnable {
      */
     public void run() {
         boolean isDone = false;
-        int length = 0;
+
         while (!board.isEmpty() && !isDone) {
-            tokens.add(board.extract(this));
-            Token lastToken = tokens.get(tokens.size() - 1);
-            if (lastToken.isJoker()) {
-                numberOfJokers++;
+            try {
+                synchronized ( turnCommunicator) {
+                    turnCommunicator.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
-            length = scoreManager.maxLengthForProgression(this );
-            if (length >= scoreManager.getArithmeticSize()) {
-                isDone = true;
+            if (!board.isEmpty() && !scoreManager.hasWinner()) {
+                isDone = makeTurn();
+            } else {
+                isDone=true;
+            }
+
+            synchronized (turnCommunicator) {
+                turnCommunicator.notify();
             }
         }
+
         if (isDone) {
-            System.out.printf("I (%s) found a progression for the required length\n", name);
             scoreManager.claimWin(this);
-        } else {
-            System.out.printf("I (%s) did not find a progression for the required length, my max length is %d\n", name, length);
         }
     }
 
