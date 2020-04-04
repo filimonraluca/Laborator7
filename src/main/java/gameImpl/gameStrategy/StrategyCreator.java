@@ -7,6 +7,8 @@ public class StrategyCreator {
         switch (strategyType){
             case LAST_TOKEN:
                 return new LastTokenStrategy(board);
+            case RANDOM_TOKEN:
+                return new RandomStrategy(board);
             default:
                 return null;
         }
