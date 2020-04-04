@@ -7,28 +7,9 @@ import java.util.List;
  */
 public class Board {
     List<Token> tokens;
-    Player winner;
-    Boolean isWinner = false;
 
     public Board(List<Token> tokens) {
         this.tokens = tokens;
-    }
-
-    /**
-     * Am folosit un synchronized statement pentru a preveni intrarea a mai multor threaduri in verificare
-     * Practic, ne ajuta sa alegem un singur castigator la final in momentul in care s-a gasit.
-     * @param player reprezinta obiectul de tip Player care devine jucator daca nici un alt thread nu a intrat acolo inca
-     */
-    public void claimWin(Player player) {
-        synchronized (isWinner) {
-            if (!isWinner) {
-                winner = player;
-                isWinner = true;
-                System.out.printf("gameImpl.Player %s claimed it won\n", player.getName());
-            } else {
-                System.out.printf("gameImpl.Player %s claimed it won after player %s\n", player.getName(), winner.getName());
-            }
-        }
     }
 
     /**
@@ -40,7 +21,7 @@ public class Board {
     public Token extract(Player player) {
         Token nextToken = null;
         synchronized (tokens) {
-            if (!isWinner && !this.isEmpty()) {
+            if (!this.isEmpty()) {
                 nextToken = tokens.remove(tokens.size() - 1);
             }
         }

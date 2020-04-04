@@ -5,7 +5,7 @@ package gameImpl;
  * Acestea au fie un numar, fie sunt goale caz in care le consideram jokeri si inlocuim numarul cu -1
  * De asemenea, implementeaza interfata Comporable pentru a impune o ordine a elementelor
  */
-public class Token implements Comparable {
+public class Token implements Comparable<Token> {
     int number;
     boolean joker;
 
@@ -35,12 +35,11 @@ public class Token implements Comparable {
 
     /**
      * Suprascriem functie compareTo pentru a impune ordonarea elementelor in functie de numarul cartii.
-     * @param o
+     * @param token
      * @return
      */
     @Override
-    public int compareTo(Object o) {
-        Token token = (Token) o;
+    public int compareTo(Token token) {
         return number - token.getNumber();
     }
 }

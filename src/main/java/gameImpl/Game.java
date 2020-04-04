@@ -12,13 +12,17 @@ public class Game {
     Board board;
     List<Player> players;
     List<Token> tokens;
+    List<Thread> playersThread;
+    ScoreManager scoreManager;
 
     public Game(int playerNumber, int tokenNumber, int maxTokenValue, int k) {
         initTokens(tokenNumber, maxTokenValue);
         board = new Board(tokens);
         players = new ArrayList<>();
+        playersThread = new ArrayList<>();
+        scoreManager = new ScoreManager(k);
         for (int i = 0; i < playerNumber; ++i) {
-            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, k));
+            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager));
         }
     }
 
@@ -47,6 +51,14 @@ public class Game {
         Collections.shuffle(tokens);
     }
 
+    public void startPlayerThreads() {
+        for (Player player : players) {
+            Thread t = new Thread(player);
+            t.start();
+            playersThread.add(t);
+        }
+    }
+
     /**
      * Metoda start() creeaza thredurile pentru fiecare jucator in parte si porneste executia fiecaruia prin metoda start() care
      * prin JVM va apela metoda run() a fiecarui thread
@@ -54,13 +66,8 @@ public class Game {
      * nu se termina thredurile jucatorilor.
      */
     public void start() {
-        List<Thread> threads = new ArrayList<>();
-        for (Player player : players) {
-            Thread t = new Thread(player);
-            t.start();
-            threads.add(t);
-        }
-        for (Thread t : threads) {
+        startPlayerThreads();
+        for (Thread t : playersThread) {
             try {
                 t.join();
             } catch (InterruptedException e) {
