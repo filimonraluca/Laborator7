@@ -85,6 +85,9 @@ public class ScoreManager {
      * @param player
      */
     private int computeMaximumRatio(Player player) {
+        if (player.getTokens().size()==0) {
+            return 0;
+        }
         Token maximum = Collections.max(player.getTokens());
         Token minimum = Collections.min(player.getTokens());
         return maximum.getNumber() - minimum.getNumber();

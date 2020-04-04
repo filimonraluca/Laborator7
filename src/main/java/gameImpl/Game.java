@@ -8,7 +8,7 @@ import java.util.List;
  * Clasa game reprezinta jocul propriu zis care are obiectul de tip Board reprezentand Tabla, O list de obiecte de tip Player reprezentand toti jucatorii jocului
  * si o lista cu obiecte de tip Token reprezentand totalitate cartilor din joc
  */
-public class Game {
+public class Game implements Runnable {
     Board board;
     List<Player> players;
     List<Token> tokens;
@@ -59,18 +59,26 @@ public class Game {
         }
     }
 
+    public List<Thread> getPlayersThread() {
+        return playersThread;
+    }
+
+    public ScoreManager getScoreManager() {
+        return scoreManager;
+    }
+
     /**
      * Metoda start() creeaza thredurile pentru fiecare jucator in parte si porneste executia fiecaruia prin metoda start() care
      * prin JVM va apela metoda run() a fiecarui thread
      * De asemenea, trecem prin toate threadurile create si apelam metoda join() pentru ca thredul jocului sa nu se termine pana
      * nu se termina thredurile jucatorilor.
      */
-    public void start() {
+    public void run() {
         startPlayerThreads();
         int nextPlayer = 0;
         while ( !scoreManager.hasWinner() && !board.isEmpty() ) {
             Object communicator = players.get(nextPlayer).getTurnCommunicator();
-            System.out.println(players.get(nextPlayer).getName());
+
             synchronized (communicator) {
                 communicator.notify();
             }
@@ -80,8 +88,10 @@ public class Game {
                     communicator.wait();
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.println("Game interrupted while it was waiting for player to take its turn");
+                break;
             }
+
             nextPlayer = (nextPlayer + 1) % players.size();
         }
         awakeAll();
@@ -101,7 +111,12 @@ public class Game {
                 }
             }
         }
-        System.out.printf("The winner is %s", scoreManager.getWinner().getName());
+
+        if ( scoreManager.getWinner() != null ) {
+            System.out.printf("The winner is %s\n", scoreManager.getWinner().getName());
+        } else {
+            System.out.println("Game was interrupted.");
+        }
     }
 
     private void joinAll() {

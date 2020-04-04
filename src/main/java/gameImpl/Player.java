@@ -80,7 +80,8 @@ public class Player implements Runnable {
                     turnCommunicator.wait();
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                System.out.printf("Player %s interrupted while waiting its turn\n", name);
+                break;
             }
 
             if (!board.isEmpty() && !scoreManager.hasWinner()) {
