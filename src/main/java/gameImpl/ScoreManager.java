@@ -13,9 +13,9 @@ public class ScoreManager {
     }
 
     /**
-     * Am folosit un synchronized statement pentru a preveni intrarea a mai multor threaduri in verificare
+     * Am folosit un synchronized winnerLock pentru a preveni intrarea a mai multor threaduri in verificare
      * Practic, ne ajuta sa alegem un singur castigator la final in momentul in care s-a gasit.
-     * @param player reprezinta obiectul de tip Player care devine jucator daca nici un alt thread nu a intrat acolo inca
+     * @param player reprezinta obiectul de tip Player care devine castigator daca winner este null
      */
     public void claimWin(Player player) {
         synchronized (winnerLock) {
@@ -65,13 +65,11 @@ public class ScoreManager {
      */
     private int maxLengthForRatio(Player player, int ratio) {
         int maxLength = 0, length;
-        Token maxTokenStart = null;
         for (Token t : player.getTokens())
             if (!t.isJoker()) {
                 length = progressionLengthStartingFrom(player, t, ratio);
                 if (maxLength < length) {
                     maxLength = length;
-                    maxTokenStart = t;
                 }
             }
 //        System.out.printf("I (%s) found a progression of ratio %d and size %d starting from %d\n", player.getName(), ratio, maxLength, maxTokenStart.getNumber());
@@ -129,11 +127,23 @@ public class ScoreManager {
         return size;
     }
 
+    /**
+     * Verifica daca exista un castigator. Am folosit synchronized pe obiectul winnerLock pentru a impiedica 2 threduri
+     * diferite sa faca verificarea simultan.
+     * @return true daca winner este diferit de null, false altfel.
+     */
     public boolean hasWinner() {
         synchronized (winnerLock) {
             return winner != null;
         }
     }
+
+    /**
+     * Metoda decideWinnerOnEmptyBoard este folosita pentru a decide castigatorul in cazul in care toate tokenurile
+     * au fost extrase de pe masa. Se trece prin lista jucatorilor si se determina lungimea maxima a unei progresii
+     * cu tokenurile extrase de acesta. Castigatornul este cel care reuseste sa formeze cea mai lunga progresie.
+     * @param players
+     */
 
     public void decideWinnerOnEmptyBoard(List<Player> players) {
         if (winner == null) {

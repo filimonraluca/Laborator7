@@ -8,7 +8,8 @@ import java.util.*;
 
 /**
  * Clasa Player reprezinta jucatorul cu un nume, care joaca pentru o anumita table si are o lista tokens in mana
- * De asemenea, are si niste atribute precum arithmeticSize reprezentand lungimea progresiei aritmetice pe care ar trebui sa o aiba pentru a castiga
+ * De asemenea, are si niste atribute precum un obiect de tipul scoreManager responsabil cu deciderea scorului,
+ * un obiect de tipul Strategy care reprezinta strategia cu care va juca
  * si numberOfJokers reprezentand numarul de jokeri pe care ii detine
  */
 public class Player implements Runnable {
@@ -18,7 +19,6 @@ public class Player implements Runnable {
     Board board;
     List<Token> tokens;
     int numberOfJokers = 0;
-    int score;
     ScoreManager scoreManager;
 
 
@@ -57,6 +57,14 @@ public class Player implements Runnable {
         return turnCommunicator;
     }
 
+    /**
+     * In metoda makeTurn() jucatorul gaseste tokenul pe care doreste sa il extraga in functie de trategia pe care o aplica,
+     * il extrage de pe tabla si il adauga in lista lui de tokenuri.
+     * Se apeleaza metoda maxLenghtForProgression() care returneaza lungimea maxima a unui progresii cu tokenurile pe care
+     * le-a extras jucatorul.
+     * @return true daca jucatorul a facut o progresie arimetica mai mare sau egala cu lungimea progresiei necesare pentru
+     * a castiga, false altfel
+     */
     public boolean makeTurn(){
         Token token = strategy.findToken();
         if ( board.extract(token) ) {
@@ -70,12 +78,10 @@ public class Player implements Runnable {
 
     /**
      * Metoda run() este cea apelata in momentul in care se incepe executia unui thread pentru un player
-     * Aceasta se incheie cand fie nu mai sunt carti pe tabla, caz in care castigatorul se decide in functie de progresia de cea mai lunga lungime,
-     * fie un jucator a facut o progresie de lungimea ceruta caz in care aceasta este castigatorul si se apeleaza metoda claimWin() din clasa Board
-     * In momentul in care s-a terminat executia metodei run(), s-a incheiat si firul de executie a threadului
-     * Cat timp nu s-a incheiat jocul jucatorul extrage carti de pe tabla cu ajutorul metodei extract() din clasa Board
-     * Se ia in cosiderare la fiecare carte trasa daa este sau nu joker si se calculeaza dupa fiecare tragere care este lungimea maxima
-     * a unei progresii aritmetice cu ajutorul metodei maxLengthForProgression()
+     * Cat timp tabla nu este goala si nu exista un castigator al meciului, jucatorul isi asteapta randul.
+     * Obiectul turnCommunicator va asigura ca thredul jucatorului va fi blocat pana va primi notify() de la threadul
+     * jocului. Dupa ce jucatorul si-a terminat tura trimite notify thredului jocului pentru ca acesta sa poata trece la jucatorul
+     * urmator.
      */
     public void run() {
         boolean isDone = false;

@@ -7,8 +7,11 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Clasa game reprezinta jocul propriu zis care are obiectul de tip Board reprezentand Tabla, O list de obiecte de tip Player reprezentand toti jucatorii jocului
- * si o lista cu obiecte de tip Token reprezentand totalitate cartilor din joc
+ * Clasa game reprezinta jocul propriu zis care are obiectul de tip Board reprezentand Tabla,
+ * O list de obiecte de tip Player reprezentand toti jucatorii jocului,
+ * o lista cu obiecte de tip Token reprezentand totalitate cartilor din joc,
+ * o lista de threduri continand toate thredurile jocatorilor,
+ * si un obiect de tipul ScoreManager responsabil cu deciderea scorului
  */
 public class Game implements Runnable {
     Board board;
@@ -17,14 +20,14 @@ public class Game implements Runnable {
     List<Thread> playersThread;
     ScoreManager scoreManager;
 
-    public Game(int playerNumber, int tokenNumber, int maxTokenValue, int k) {
+    public Game(int playerNumber, int tokenNumber, int maxTokenValue, int k,  StrategyType strategyType) {
         initTokens(tokenNumber, maxTokenValue);
         board = new Board(tokens);
         players = new ArrayList<>();
         playersThread = new ArrayList<>();
         scoreManager = new ScoreManager(k);
         for (int i = 0; i < playerNumber; ++i) {
-            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager, StrategyType.MANUAL));
+            players.add(new Player(String.format("gameImpl.Player %d", i + 1), board, scoreManager, strategyType));
         }
     }
 
@@ -52,7 +55,8 @@ public class Game implements Runnable {
         }
         Collections.shuffle(tokens);
     }
-
+    /** Metoda startPlayerThreads creaza cate un thred pentru fiecare jucator si il adauga in lista playersThread
+     */
     public void startPlayerThreads() {
         for (Player player : players) {
             Thread t = new Thread(player);
@@ -70,10 +74,14 @@ public class Game implements Runnable {
     }
 
     /**
-     * Metoda start() creeaza thredurile pentru fiecare jucator in parte si porneste executia fiecaruia prin metoda start() care
-     * prin JVM va apela metoda run() a fiecarui thread
-     * De asemenea, trecem prin toate threadurile create si apelam metoda join() pentru ca thredul jocului sa nu se termine pana
-     * nu se termina thredurile jucatorilor.
+     * Metoda run() creeaza thredurile pentru fiecare jucator in parte si cat timp nu exista un castigator si tabla nu este
+     * goala jucatorii primesc rand pe rand posibilitatea de a mai extrage un token prin intermediul obiectului communicator
+     * al fiecarui jucator si metoda notify() care va trezi thredul. Dupa ce jucatorul isi va termina executia thredul corespunzator
+     * acelui jucator va fi din nou suspendat prin metoda wait().
+     * Metoda awakeAll() este folosita pentru a "anunta" toti jucatorii ca exista un castigator si jucal s-a terminat
+     * Metoda joinAll() este folosita pentru a se asigura faptul ca executia unui thread s-a terminat inainte de a incepe executia
+     * urmatorului
+     * Metoda decideWinner() este folosita pentru a decide castigatorul
      */
     public void run() {
         startPlayerThreads();
@@ -101,6 +109,12 @@ public class Game implements Runnable {
         decideWinner();
     }
 
+    /**
+     * Metoda decideWinner() este folosita pentru a decide castigatorul meciului.
+     * metoda decideWinnerOnEmptyBoard decide castigatorul in cazul in care tabla este goala si
+     * nu exista niciun jucator care sa fi facut o progresie aritmetica de lungime k.
+     * In cazul in care exista un castigator acesta este afisat pe ecran.
+     */
     private void decideWinner() {
         scoreManager.decideWinnerOnEmptyBoard( players );
 
@@ -111,6 +125,9 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Metoda joinAll() permite thredurilor jucatorilor sa isi astepte executia pana cand un alt thread si-a terminat-o.
+     */
     private void joinAll() {
         for (Thread t : playersThread) {
             try {
@@ -121,6 +138,9 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Trezeste pe rand toate thredurile jucatorilor.
+     */
     private void awakeAll() {
         for (Player player:players) {
             Object communicator = player.getTurnCommunicator();

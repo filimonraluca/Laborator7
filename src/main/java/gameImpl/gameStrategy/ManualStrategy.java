@@ -12,6 +12,11 @@ public class ManualStrategy implements Strategy {
         this.board = board;
     }
 
+    /**
+     * In aceasta metoda se afiseaza jucatorului tokenurile existente iar el pentru a selecta un token va introduce de la
+     * tastatura pozitia tokenului pe care il doreste.
+     * @return tokenul dorit
+     */
     @Override
     public Token findToken() {
         System.out.printf("The Remaining tokens are: ");

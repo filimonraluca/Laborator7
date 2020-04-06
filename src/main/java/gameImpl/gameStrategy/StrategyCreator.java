@@ -1,7 +1,10 @@
 package gameImpl.gameStrategy;
 
 import gameImpl.Board;
-
+/**
+ * Clasa StrategyCreator are o singura metoda, si anume create, prin intermediul careia va returna un obiect de tipul
+ * Strategy care implementeaza strategia dorita.
+ */
 public class StrategyCreator {
     public static Strategy create(StrategyType strategyType, Board board) {
         switch (strategyType){

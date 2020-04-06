@@ -15,6 +15,10 @@ public class RandomStrategy implements Strategy{
         this.random = new Random();
     }
 
+    /**
+     * In aceasta metoda se selecteaza in mod random un token
+     * @return tokenul selectat
+     */
     @Override
     public Token findToken() {
         return board.getTokens().get( random.nextInt(board.getTokens().size()) );
