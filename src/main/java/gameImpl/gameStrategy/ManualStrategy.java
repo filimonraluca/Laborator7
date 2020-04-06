@@ -23,7 +23,6 @@ public class ManualStrategy implements Strategy {
         board.printTokens();
         Scanner scanner = new Scanner(System.in);
         int value = scanner.nextInt();
-        System.out.println("The input value is" + value);
         return board.getTokens().get(value);
     }
 }
